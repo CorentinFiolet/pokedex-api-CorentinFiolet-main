@@ -1,0 +1,1 @@
+// Déplacer les fonctions communes à patch et post
