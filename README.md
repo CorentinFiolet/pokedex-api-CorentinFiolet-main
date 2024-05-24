@@ -22,15 +22,15 @@ Le fichier `package.json` contient une commande `npm run init-db` qui permet d'i
 
 Une fois votre base de donnée initialisée nous allons compléter ce fichier `init.db.js`. Durant ce tp nous allons chercher à créer une API permettant de gérer des pokémons. Nous allons donc créer une table `pokemons` qui contiendra les informations suivantes:
 
-| Nom            | Type          | Propriété    | Description                            |
-| -------------- | ------------- | -------------- | -------------------------------------- |
-| id             | Number        | clé primaire  | Identifiant unique du Pokémon         |
-| nom            | String        | requis, unique | Nom du Pokémon                        |
-| pokedexId      | Number        | requis, unique | Numéro dans le Pokédex               |
-| type1_id       | REF(Types)    | requis         | 1er type du Pokémon                   |
-| type2_id       | REF(Types)    |                | 2ème type du Pokémon                 |
+| Nom            | Type          | Propriété      | Description                        |
+| -------------- | ------------- | -------------- | ---------------------------------- |
+| id             | Number        | clé primaire   | Identifiant unique du Pokémon      |
+| nom            | String        | requis, unique | Nom du Pokémon                     |
+| pokedexId      | Number        | requis, unique | Numéro dans le Pokédex             |
+| type1_id       | REF(Types)    | requis         | 1er type du Pokémon                |
+| type2_id       | REF(Types)    |                | 2ème type du Pokémon               |
 | pre_evolution  | REF(Pokemons) |                | Pokémon précédent dans l'évolution |
-| post_evolution | REF(Pokemons) |                | Pokémon suivant dans l'évolution     |
+| post_evolution | REF(Pokemons) |                | Pokémon suivant dans l'évolution   |
 
 ### Structure du projet
 
@@ -38,8 +38,8 @@ Nous allons suivre la structure suivante pour nos API.
 
 ```txt
 src
-├── nom_du_module 
-│   ├── *.model.js 
+├── nom_du_module
+│   ├── *.model.js
 │   └── *.controller.js
 │   └── *.route.js
 └── db.js
@@ -69,7 +69,7 @@ Le but va être de créer 5 endpoints pour gérer les pokémons. Ces endpoints s
 - `PATCH:/pokemons/pokemonId` : permet de modifier le pokémon donc le `pokemonId` est passé en paramètre et les propriétés passées dans le body.
 - `DELETE:/pokemons/pokemonId:` : permet de supprimer le pokémon renseigné avec son `pokemonId`.
 
-Le pokemonId  de l'endpoint peut correspondre au choix le champs `id` ou le champs `pokedexId`. Si vous en choisissez un gardez simplement le même en permanence.
+Le pokemonId de l'endpoint peut correspondre au choix le champs `id` ou le champs `pokedexId`. Si vous en choisissez un gardez simplement le même en permanence.
 
 Dans le cas des endpoints **POST** et **PATCH** vous avez besoin de données à renseigner dans le body. Voici un exemple de ce à quoi elles peuvent ressembler:
 
@@ -85,7 +85,7 @@ Dans le cas des endpoints **POST** et **PATCH** vous avez besoin de données à 
 
 Ces fonctions seront extrêmement simple pour le moment et n'auront pour but d'appeler que les fonctions controllers associées à chacun des endpoints que nous développerons dans la partie suivante.
 
-*N'oubliez pas les routes ne doivent pas contenir de logiques particulières ou de vérifications c'est le rôle des controllers.*
+_N'oubliez pas les routes ne doivent pas contenir de logiques particulières ou de vérifications c'est le rôle des controllers._
 
 ### Controllers
 
@@ -108,7 +108,7 @@ Le but initial d'un controlleur reste de vérifier les données qui transitent e
 - SI champs type contient l'id d'un type qui n'existe pas on renvoie une erreur 400 en précisant que l'id renseigné n'existe pas.
 - Si le nom du pokémon ou le pokemonId est déjà renseignée en base sur l'une des lignes de la table alors on renvoie une erreur 400 en indiquant qu'il y a un doublon de data.
 
-*N'hésitez pas à utiliser les modèles pour aller chercher les informations nécessaires à vos tests*
+_N'hésitez pas à utiliser les modèles pour aller chercher les informations nécessaires à vos tests_
 
 ### Modeles
 
@@ -122,24 +122,24 @@ Nous allons essayer d'ajouter des fonctionnalités de permissions afin que certa
 
 Créer une table dans le script `init.db.js` qui sera de la structure suivante:
 
-| Nom      | Type   | Propriété    | Description                         |
+| Nom      | Type   | Propriété      | Description                         |
 | -------- | ------ | -------------- | ----------------------------------- |
-| id       | Number | clé primaire  | Identifiant unique de l'utilisateur |
+| id       | Number | clé primaire   | Identifiant unique de l'utilisateur |
 | email    | String | requis, unique | Email de l'utilisateur              |
 | password | String | requis         | Mot de passe                        |
 
 ### Endpoints users
 
- Créer l'endpoint de création d'un utilisateur `POST:/users` à travers les fichiers `users.route.js` et `users.controller.ts`. Attention dans la partie controlleur veillez bien à crypter le mot de passe entré dans le body afin qu'il ne soit pas stocké en clair dans la base de donnée.
+Créer l'endpoint de création d'un utilisateur `POST:/users` à travers les fichiers `users.route.js` et `users.controller.ts`. Attention dans la partie controlleur veillez bien à crypter le mot de passe entré dans le body afin qu'il ne soit pas stocké en clair dans la base de donnée.
 
- Pour ce faire vous pouvez utiliser le package: `npm install bcrypt`. Renseignez vous dans la [doc](https://www.npmjs.com/package/bcrypt) concernant la méthode `hash`. Elle renvoie une promesse que vous devrez gérer.
+Pour ce faire vous pouvez utiliser le package: `npm install bcrypt`. Renseignez vous dans la [doc](https://www.npmjs.com/package/bcrypt) concernant la méthode `hash`. Elle renvoie une promesse que vous devrez gérer.
 
- On aura ensuite un second endpoint `POST:/users/login`. Cet endpoint récupèrera l'utilisateur en base de données avec les informations email et mot de passe entrés dans le body de la requête.
- Il renverra ensuite un JWT construit à l'aide du package `jsonwebtoken` et du retour de la requête en BDD permettant d'obtenir les informations utilisateurs.
+On aura ensuite un second endpoint `POST:/users/login`. Cet endpoint récupèrera l'utilisateur en base de données avec les informations email et mot de passe entrés dans le body de la requête.
+Il renverra ensuite un JWT construit à l'aide du package `jsonwebtoken` et du retour de la requête en BDD permettant d'obtenir les informations utilisateurs.
 
- *Nous utilons ici une méthode POST et non GET car il s'agit d'un point de vue applicatif de la création d'une session utilisateur. Dans le cas d'une création le POST est donc plus logique.*
+_Nous utilons ici une méthode POST et non GET car il s'agit d'un point de vue applicatif de la création d'une session utilisateur. Dans le cas d'une création le POST est donc plus logique._
 
- *La requête login va vous renvoyer un jwt crypté sur Postman. Dans ce cas vous devez récuperer ce JWT et le stocker dans le champs Authorization du header de votre requête*
+_La requête login va vous renvoyer un jwt crypté sur Postman. Dans ce cas vous devez récuperer ce JWT et le stocker dans le champs Authorization du header de votre requête_
 
 ### Middleware de permission
 

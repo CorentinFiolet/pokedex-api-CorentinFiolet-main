@@ -1,7 +1,7 @@
-const db = require('../db');
+const {db} = require('../db');
 
-const postUsersModel = (body) => {
-    db.run(`INSERT INTO users (email, password) = (?, ?)`, [body.email, body.password]);
+const postUsersModel = (email, pwd) => {
+    db.run(`INSERT INTO users (email, password) VALUES (?, ?)`, [email, pwd]);
 }
 
 

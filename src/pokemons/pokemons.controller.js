@@ -1,9 +1,11 @@
 const { getPokemonsModel, getPokemonsIdModel, postPokemonsModel, patchPokemonsModel, deletePokemonsModel } = require('./pokemon.model');
 const { getTypesModel } = require('../types/types.model');
+const { verifyJWT } = require('../common/jwt.middleware');
 
 const getPokemonsController = async (_req, res) => {
     try {
         const pokemons = await getPokemonsModel();
+
 
         if (pokemons.length === 0) return res.status(204).send(pokemons);
 
@@ -177,7 +179,7 @@ const deletePokemonsController = (req, res) => {
     try {
         const result = deletePokemonsModel(req.params.pokedexId);
 
-        res.status(200).send();
+        res.status(200).send("le pokémon " + req.params.pokedexId + " a été supprimé.");
     } catch (err) {
         res.status(400).send(err.message);
     }
