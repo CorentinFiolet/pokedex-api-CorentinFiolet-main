@@ -12,7 +12,7 @@ verifyJWT = (req, res, next) => {
       };
       next();
    } catch(error) {
-       res.status(401).json({ error });
+       res.status(401).send(error.message);
    }
 };
 
